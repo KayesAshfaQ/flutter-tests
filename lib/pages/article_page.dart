@@ -12,19 +12,14 @@ class ArticlePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        title: Text(article.title),
+      ),
       body: SingleChildScrollView(
-        child: Column(
-          children: [
-            Text(
-              article.title,
-              style: Theme.of(context).textTheme.headlineSmall,
-            ),
-            const SizedBox(height: 8),
-            Text(
-              article.content,
-              style: Theme.of(context).textTheme.bodySmall,
-            ),
-          ],
+        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+        child: Text(
+          article.content,
+          style: Theme.of(context).textTheme.bodyMedium,
         ),
       ),
     );

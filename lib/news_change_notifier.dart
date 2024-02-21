@@ -15,6 +15,10 @@ class NewsChangeNotifier extends ChangeNotifier {
   bool get isLoading => _isLoading;
 
   Future<void> getArticles() async {
-    // TODO : Implement the getArticles method
+    _isLoading = true;
+    notifyListeners();
+    _articles = await _newsService.getArticles();
+    _isLoading = false;
+    notifyListeners();
   }
 }
