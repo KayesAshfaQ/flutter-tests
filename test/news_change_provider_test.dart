@@ -53,12 +53,49 @@ void main() {
   group(
     'fetch articles',
     () {
+      final mockArticles = [
+        Article(title: 'Article 1', content: 'Content 1'),
+        Article(title: 'Article 2', content: 'Content 2'),
+        Article(title: 'Article 3', content: 'Content 3'),
+      ];
+
+      void mockNewsServiceGetArticlesArranger() {
+        when(() => mockNewsService.getArticles()).thenAnswer(
+          (_) async => mockArticles,
+        );
+      }
+
       test(
         'fetchArticles using the news service',
         () async {
-          when(() => mockNewsService.getArticles()).thenAnswer((_) async => []);
+          // arrange
+          mockNewsServiceGetArticlesArranger();
+
+          // act
           await sut.fetchArticles();
+
+          // assert
           verify(() => mockNewsService.getArticles()).called(1);
+        },
+      );
+
+      test(
+        '''indicates loading of data,
+        sets articles to the ones form the service,
+        indicates data is not being loaded anymore''',
+        () async {
+          // arrange
+          mockNewsServiceGetArticlesArranger();
+
+          // act
+          final future = sut.fetchArticles();
+
+          // assert
+          expect(sut.isLoading, true);
+          await future;
+          expect(sut.isLoading, false);
+          expect(sut.articles.length, 3);
+          expect(sut.articles, mockArticles);
         },
       );
     },
