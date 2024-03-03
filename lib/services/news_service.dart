@@ -1,5 +1,6 @@
 import 'package:flutter_lorem/flutter_lorem.dart';
-import 'package:flutter_tests/models/article.dart';
+
+import '../models/article.dart';
 
 /// A News service simulating communication with a server.
 class NewsService {

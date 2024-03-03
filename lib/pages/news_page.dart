@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_tests/news_change_notifier.dart';
 import 'package:provider/provider.dart';
 
+import '../providers/news_change_provider.dart';
 import 'article_page.dart';
 
 class NewsPage extends StatefulWidget {
@@ -16,7 +16,7 @@ class _NewsPageState extends State<NewsPage> {
   void initState() {
     super.initState();
     Future.microtask(
-      () => context.read<NewsChangeNotifier>().getArticles(),
+      () => context.read<NewsChangeProvider>().fetchArticles(),
     );
   }
 
@@ -26,7 +26,7 @@ class _NewsPageState extends State<NewsPage> {
       appBar: AppBar(
         title: const Text('News'),
       ),
-      body: Consumer<NewsChangeNotifier>(
+      body: Consumer<NewsChangeProvider>(
         builder: (context, value, child) {
           if (value.isLoading) {
             return const Center(

@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_tests/pages/news_page.dart';
-import 'package:flutter_tests/services/news_service.dart';
 import 'package:provider/provider.dart';
 
-import 'news_change_notifier.dart';
+import 'providers/news_change_provider.dart';
+import 'pages/news_page.dart';
+import 'services/news_service.dart';
 
 void main() {
   runApp(const MyApp());
@@ -21,7 +21,7 @@ class MyApp extends StatelessWidget {
         useMaterial3: true,
       ),
       home: ChangeNotifierProvider(
-        create: (_) => NewsChangeNotifier(NewsService()),
+        create: (_) => NewsChangeProvider(NewsService()),
         child: const NewsPage(),
       ),
     );
