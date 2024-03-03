@@ -41,6 +41,7 @@ class _NewsPageState extends State<NewsPage> {
           }
 
           return ListView.builder(
+            padding: const EdgeInsets.fromLTRB(8, 0, 8, 8),
             itemCount: value.articles.length,
             itemBuilder: (context, index) {
               final article = value.articles[index];
