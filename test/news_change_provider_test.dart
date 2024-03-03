@@ -49,4 +49,18 @@ void main() {
       expect(sut.isLoading, false);
     },
   );
+
+  group(
+    'fetch articles',
+    () {
+      test(
+        'fetchArticles using the news service',
+        () async {
+          when(() => mockNewsService.getArticles()).thenAnswer((_) async => []);
+          await sut.fetchArticles();
+          verify(() => mockNewsService.getArticles()).called(1);
+        },
+      );
+    },
+  );
 }
