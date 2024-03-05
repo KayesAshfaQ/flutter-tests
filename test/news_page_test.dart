@@ -19,6 +19,12 @@ void main() {
     mockNewsService = MockNewsService();
   });
 
+  final mockArticles = [
+    Article(title: 'Article 1', content: 'Content 1'),
+    Article(title: 'Article 2', content: 'Content 2'),
+    Article(title: 'Article 3', content: 'Content 3'),
+  ];
+
   Widget createWidgetUnderTest() {
     return MaterialApp(
       title: 'Flutter Demo',
@@ -38,11 +44,7 @@ void main() {
     (WidgetTester tester) async {
       // arrange
       when(() => mockNewsService.getArticles()).thenAnswer(
-        (_) async => [
-          Article(title: 'Article 1', content: 'Content 1'),
-          Article(title: 'Article 2', content: 'Content 2'),
-          Article(title: 'Article 3', content: 'Content 3'),
-        ],
+        (_) async => mockArticles,
       );
 
       // act
@@ -50,6 +52,28 @@ void main() {
 
       // assert
       expect(find.text('News'), findsOneWidget);
+    },
+  );
+
+  testWidgets(
+    "loading indicator is displayed when loading articles",
+    (WidgetTester tester) async {
+      // mock the getArticles method to return the articles after 2 seconds
+      when(() => mockNewsService.getArticles()).thenAnswer((_) async {
+        await Future.delayed(const Duration(seconds: 2));
+        return mockArticles;
+      });
+
+      await tester.pumpWidget(createWidgetUnderTest());
+
+      // ensures the loading indicator is displayed by rebuilding
+      await tester.pump(const Duration(milliseconds: 1900));
+
+      // assert the loading indicator is displayed
+      expect(find.byType(CircularProgressIndicator), findsOneWidget);
+
+      // ensures nothing still pending (timer in this case)
+      await tester.pumpAndSettle();
     },
   );
 }
