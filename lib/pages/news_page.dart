@@ -30,7 +30,9 @@ class _NewsPageState extends State<NewsPage> {
         builder: (context, value, child) {
           if (value.isLoading) {
             return const Center(
-              child: CircularProgressIndicator(),
+              child: CircularProgressIndicator(
+                key: Key('progress-loader'),
+              ),
             );
           }
 

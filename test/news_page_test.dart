@@ -70,7 +70,7 @@ void main() {
       await tester.pump(const Duration(milliseconds: 1900));
 
       // assert the loading indicator is displayed
-      expect(find.byType(CircularProgressIndicator), findsOneWidget);
+      expect(find.byKey(const Key('progress-loader')), findsOneWidget);
 
       // ensures nothing still pending (timer in this case)
       await tester.pumpAndSettle();
