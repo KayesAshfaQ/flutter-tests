@@ -76,4 +76,21 @@ void main() {
       await tester.pumpAndSettle();
     },
   );
+
+  testWidgets(
+    "articles are displayed",
+    (WidgetTester tester) async {
+      when(() => mockNewsService.getArticles()).thenAnswer((_) async => mockArticles);
+
+      await tester.pumpWidget(createWidgetUnderTest());
+      await tester.pump();
+
+      for (final article in mockArticles) {
+        expect(find.text(article.title), findsOneWidget);
+        expect(find.text(article.content), findsOneWidget);
+      }
+
+      await tester.pumpAndSettle();
+    },
+  );
 }
